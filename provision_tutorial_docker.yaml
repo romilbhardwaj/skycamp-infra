@@ -7,11 +7,11 @@ name: tut_containers
 # Cloud and accelerators if required for the tutorial
 resources:
   cloud: aws
-  # region: us-west-2  # Can customize, defaults to us-east-1
+  region: us-west-2  # Can customize, defaults to us-east-1
   # instance_type: m6i.2xlarge   # Can customize
 
 # Configure the number of nodes to be used here
-num_nodes: 15
+num_nodes: 2
 
 # Copy over credentials to the VMs. These should be mounted automatically inside the container you choose to use. See SkyPilot tutorial Dockerfile on how to do this.
 file_mounts:
@@ -26,9 +26,14 @@ setup: |
 
 # Add your image here. Make sure you use a port NOT in use by any other image! Port options: 8888, 8889, 8890.
 run: |
+  echo "Killing existing containers"
+  docker kill $(docker ps -q)
+  docker rm $(docker ps -a -q)
+  sleep 10
+  echo "Done killing containers. Launching new containers."
   # Skyplane tutorial
-  docker run -v ~/credentials:/credentials:ro -p 8888:8888 public.ecr.aws/i5z6k9k2/skyplane:skycamp-tutorial
+  docker run -d -v ~/credentials:/credentials:ro -p 8888:8888 public.ecr.aws/i5z6k9k2/skyplane:skycamp-tutorial
   # SkyPilot tutorial
-  docker run -v ~/credentials:/credentials:ro -p 8889:8888 public.ecr.aws/a9w6z7w5/skypilot-tutorial:latest
+  docker run -d -v ~/credentials:/credentials:ro -p 8889:8888 public.ecr.aws/a9w6z7w5/skypilot-tutorial:latest
   # MC2 Tutorial
-  docker run -p 8890:8890 mc2project/skycamp2022:v1 /home/mc2/skycamp/mc2/quick_start.sh
+  docker run -d -p 8890:8890 mc2project/skycamp2022:v1 /home/mc2/skycamp/mc2/quick_start.sh
