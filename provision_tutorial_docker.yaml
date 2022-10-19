@@ -37,6 +37,6 @@ run: |
   # Skyplane tutorial
   docker run -d -v ~/credentials_skyplane:/credentials:ro -p 8888:8888 public.ecr.aws/i5z6k9k2/skyplane:latest
   # SkyPilot tutorial
-  docker run -d -v ~/credentials_skypilot:/credentials:ro -p 8889:8888 public.ecr.aws/a9w6z7w5/skypilot-tutorial:latest
+  docker run -d -v ~/credentials_skypilot:/credentials:ro -p 8889:8888 -e SKYPILOT_DEV=1 public.ecr.aws/a9w6z7w5/skypilot-tutorial:latest
   # MC2 Tutorial
   docker run -d -p 8890:8890 mc2project/skycamp2022:v1 /home/mc2/skycamp/mc2/quick_start.sh

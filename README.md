@@ -2,7 +2,7 @@
 Tool to provision infrastructure for SkyCamp 2022 tutorials using SkyPilot.
 
 * Assumes Docker image for you tutorial is built and pushed to some container registry
-* Generates a connect script that you can share with attendees. This connect script contains the SSH key and the port forwarding
+* ~~Generates a connect script that you can share with attendees. This connect script contains the SSH key and the port forwarding~~. Update 10/19/22 - It still generates connect.sh, but it is recommended to just open the requisite ports on the VM's security group so attendees can easily connect. 
 
 ## SkyCamp tutorial lead responsibilities
 1. Create a docker image and push it to a public container registry.
@@ -19,11 +19,33 @@ Infra manager is one chosen person with access to the SkyCamp AWS and Google Cre
 4. Run `sky launch -c tutorial provision_tutorial_docker.yaml`. Wait for provisioning to finish.
 5. After successful provisioning, run `python get_ssh_creds.py tutorial`. This script will generate a CSV with the list of IP addresses for the provisioned machines and a `connect.sh` script which contains the shared SSH key.
 6. This `connect.sh` is shared amongst all attendees, so you can email all attendees with this script.
-7. `ssh_creds.csv` contains IP addresses of the VMs you created. TBD: How to distribute this? Email script? Or hand over the morning of the tutorial during registration? 
-8. After the tutorial, run `sky down tutorial` to terminate all the machines.
+7. `ssh_creds.csv` contains IP addresses of the VMs you created. 
+8. Use google apps script [mail merge](https://developers.google.com/apps-script/samples/automations/mail-merge) to send out bulk emails with IPs. See this template:
+```
+Hi {{First name}},
+
+Welcome to SkyCamp 2022! Your personal VM for running the tutorials is: {{ip}}.
+
+Each tutorial is hosted at a different URL. To access the tutorial notebooks, please open the browser and open:
+
+Skyplane tutorial: http://{{ip}}:8888
+SkyPilot tutorial: http://{{ip}}:8889
+MC2 tutorial: http://{{ip}}:8890
+
+If prompted, the access token for the notebooks is SkyCamp2022.
+
+Note: You may not be able to access these URLs on the public CalVisitor wifi. Please use the "eduroam" wifi network. If you need the wifi credentials, please reach out to a tutorial assistant or the registration desk.
+
+Fun fact: all tutorial VMs for this event were provisioned in one click by SkyPilot!
+
+Best,
+SkyPilot Team
+```
+9. After the tutorial, run `sky down tutorial` to terminate all the machines.
 
 ## Attendee UX
-1. Download the `connect.sh` script from the email.
-2. Run `./connect.sh <IP_Address>` to connect to the VM. Keep this terminal open.
-3. Now open `http://localhost:8888` in your local browser to access jupyter lab for tutorial 1. To start tutorial 2, increment the port number to `http://localhost:8889`.
-4. Exit once you're done. 
+See email above.
+
+~~1. Download the `connect.sh` script from the email.~~
+~~2. Run `./connect.sh <IP_Address>` to connect to the VM. Keep this terminal open.~~
+~~3. Now open `http://localhost:8888` in your local browser to access jupyter lab for tutorial 1. To start tutorial 2, increment the port number to `http://localhost:8889`.~~
