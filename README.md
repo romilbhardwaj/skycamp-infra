@@ -44,6 +44,8 @@ SkyPilot Team
 ```
 9. After the tutorial, run `sky down tutorial` to terminate all the machines.
 
+NOTE - Make sure attendees connect to `eduroam` (Ask Jon to generate temp account). `CalVisitor` wifi does not allow any port other than 80 and 443.
+
 ## Attendee UX
 See email above.
 
