@@ -18,8 +18,8 @@ Infra manager is one chosen person with access to the SkyCamp AWS and Google Cre
 3. Add everyone's docker image to the `run` section in provision_tutorial_docker.yaml
 4. Run `sky launch -c tutorial provision_tutorial_docker.yaml`. Wait for provisioning to finish.
 5. After successful provisioning, manually open AWS web console and open ports 8888, 8889 and 8890 on the VM security group (all vms share the sg).
-6. Run `python get_ssh_creds.py tutorial`. This script will generate a CSV with the list of IP addresses for the provisioned machines and a `connect.sh` script which contains the shared SSH key.
-7. This `connect.sh` is shared amongst all attendees, so you can email all attendees with this script.
+6. Run `python get_ssh_creds.py tutorial`. This script will generate a CSV with the list of IP addresses for the provisioned machines ~and a `connect.sh` script which contains the shared SSH key.~
+7. ~This `connect.sh` is shared amongst all attendees, so you can email all attendees with this script.~ connect.sh is no longer needed if the public ports are opened.
 8. `ssh_creds.csv` contains IP addresses of the VMs you created. 
 9. Use google apps script [mail merge](https://developers.google.com/apps-script/samples/automations/mail-merge) to send out bulk emails with IPs. See this template:
 ```
